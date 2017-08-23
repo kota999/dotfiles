@@ -1,0 +1,3 @@
+ - vim : my .vimrc, .vim, evervim setting for vim
+ - zshrc
+ - zshenv : zsh env file, setting for golang and peco
