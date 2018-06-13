@@ -11,47 +11,47 @@ if 1
    set nocompatible
    if !isdirectory(expand("~/.vim/bundle/neobundle.vim"))
      echo "install neobundle..."
-     :call system("git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim")
+     :call system("git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim")
    endif
    set runtimepath+=~/.vim/bundle/neobundle.vim
  endif
  call neobundle#begin(expand('~/.vim/bundle/'))
 
- NeoBundleFetch 'git://github.com/Shougo/neobundle.vim'
+ NeoBundleFetch 'https://github.com/Shougo/neobundle.vim'
  "}}}
 
  "{{{ Bundles
  let vim_version = 7.2
  if (vim_version > 7.3)
-    NeoBundle 'git://github.com/Shougo/neocomplete.git' "auto complete
+    NeoBundle 'https://github.com/Shougo/neocomplete.git' "auto complete
  endif
- NeoBundle 'git://github.com/Shougo/neocomplcache.git' "auto complete
- NeoBundle 'git://github.com/Shougo/neosnippet.git' "auto snippet
- NeoBundle 'git://github.com/Shougo/neosnippet-snippets.git' "snippet files
+ NeoBundle 'https://github.com/Shougo/neocomplcache.git' "auto complete
+ NeoBundle 'https://github.com/Shougo/neosnippet.git' "auto snippet
+ NeoBundle 'https://github.com/Shougo/neosnippet-snippets.git' "snippet files
 
- NeoBundle 'git://github.com/Shougo/unite.vim' "user interface for vim
- NeoBundle 'git://github.com/Shougo/vimfiler.git' "filer
- NeoBundle 'git://github.com/scrooloose/nerdtree.git' "filer
- NeoBundle 'git://github.com/sjl/gundo.vim.git' "undo tree
- NeoBundle 'git://github.com/vim-scripts/YankRing.vim' "managemaent yank history
- NeoBundle 'git://github.com/Lokaltog/vim-easymotion.git' "speed up move cursor
- NeoBundle 'git://github.com/ervandew/supertab.git' "tab complete plugin
- NeoBundle 'git://github.com/vim-scripts/grep.vim' "grep.vim
+ NeoBundle 'https://github.com/Shougo/unite.vim' "user interface for vim
+ NeoBundle 'https://github.com/Shougo/vimfiler.git' "filer
+ NeoBundle 'https://github.com/scrooloose/nerdtree.git' "filer
+ NeoBundle 'https://github.com/sjl/gundo.vim.git' "undo tree
+ NeoBundle 'https://github.com/vim-scripts/YankRing.vim' "managemaent yank history
+ NeoBundle 'https://github.com/Lokaltog/vim-easymotion.git' "speed up move cursor
+ NeoBundle 'https://github.com/ervandew/supertab.git' "tab complete plugin
+ NeoBundle 'https://github.com/vim-scripts/grep.vim' "grep.vim
 
- NeoBundle 'git://github.com/scrooloose/nerdcommenter.git' "comment out plugin
- NeoBundle 'git://github.com/kana/vim-smartchr.git' "using operator plugin
- NeoBundle 'git://github.com/tpope/vim-surround.git' "surround parentheses
- NeoBundle 'git://github.com/altercation/vim-colors-solarized.git' "color schema
+ NeoBundle 'https://github.com/scrooloose/nerdcommenter.git' "comment out plugin
+ NeoBundle 'https://github.com/kana/vim-smartchr.git' "using operator plugin
+ NeoBundle 'https://github.com/tpope/vim-surround.git' "surround parentheses
+ NeoBundle 'https://github.com/altercation/vim-colors-solarized.git' "color schema
  NeoBundle 'nathanaelkane/vim-indent-guides'
 
- NeoBundle 'git://github.com/Lokaltog/vim-powerline.git' "powerline
+ NeoBundle 'https://github.com/Lokaltog/vim-powerline.git' "powerline
 
- NeoBundle 'git://github.com/thinca/vim-quickrun.git' "quick run
+ NeoBundle 'https://github.com/thinca/vim-quickrun.git' "quick run
 
- NeoBundle 'git://github.com/vim-scripts/taglist.vim' "taglist
- NeoBundle 'git://github.com/szw/vim-tags.git' "vim-tags
+ NeoBundle 'https://github.com/vim-scripts/taglist.vim' "taglist
+ NeoBundle 'https://github.com/szw/vim-tags.git' "vim-tags
 
- NeoBundle 'git://github.com/tpope/vim-fugitive.git' "git plugin
+ NeoBundle 'https://github.com/tpope/vim-fugitive.git' "git plugin
 
  NeoBundle 'ConradIrwin/vim-bracketed-paste' "auto paste mode plugin
 
