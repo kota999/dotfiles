@@ -65,10 +65,10 @@
    + \c{ }
  + Open markdown preview
    + :PrevimOpen
- + Open filer
+ + Open/Close filer
    + ,uf & [Del]
    + :VimFiler & q
-   + :NERDTree
+   + :NERDTree & :q
  + Show Yank History
    + :YRShow
  + Paste Yank form History
