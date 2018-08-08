@@ -103,4 +103,4 @@
    + :Cheat
 
 ## Plugin List
-[Show Here](./.vimrc)
+[Show Here](./vim/.vimrc)
