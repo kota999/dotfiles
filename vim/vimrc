@@ -1,450 +1,453 @@
-if 1
- filetype plugin indent off
+set nocompatible
+filetype off
 
- "{{{ For NeoBundle
- "{{{ Start Neobundle
- "--------------------------------------------------
- " Start Neobundle Settings.
- "--------------------------------------------------
+"{{{ Plugin Manager
+if has('vim_starting')
+  set rtp+=~/.vim/plugged/vim-plug
+  if !isdirectory(expand('~/.vim/plugged/vim-plug'))
+    echo 'install vim-plug...'
+    call system('mkdir -p ~/.vim/plugged/vim-plug')
+    call system('git clone https://github.com/junegunn/vim-plug.git ~/.vim/plugged/vim-plug/autoload')
+  end
+endif
+"}}}
 
- if has('vim_starting')
-   set nocompatible
-   if !isdirectory(expand("~/.vim/bundle/neobundle.vim"))
-     echo "install neobundle..."
-     :call system("git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim")
-   endif
-   set runtimepath+=~/.vim/bundle/neobundle.vim
- endif
- call neobundle#begin(expand('~/.vim/bundle/'))
+"{{{ Plugin
+call plug#begin('~/.vim/plugged')
+  " vim-plug
+  Plug 'junegunn/vim-plug',
+        \ {'dir': '~/.vim/plugged/vim-plug/autoload'}
+  " Completion
+  if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  else
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+  endif
+  " Vim
+  Plug 'Shougo/vimproc'
+  Plug 'Lokaltog/vim-easymotion'
+  Plug 'ConradIrwin/vim-bracketed-paste'
+  Plug 'vim-scripts/YankRing.vim'
+  Plug 'szw/vim-tags'
+  Plug 'majutsushi/tagbar'
+  Plug 'sjl/gundo.vim'
+  Plug 'reireias/vim-cheatsheet'
+  " Shell
+  Plug 'Shougo/unite.vim'
+  Plug 'Shougo/vimfiler'
+  Plug 'Shougo/vimshell'
+  Plug 'thinca/vim-quickrun'
+  Plug 'scrooloose/nerdtree'
+  " Input automator & alignmentor
+  Plug 'tpope/vim-surround'
+  Plug 'ervandew/supertab'
+  Plug 'scrooloose/nerdcommenter'
+  Plug 'kana/vim-smartchr'
+  Plug 'Raimondi/delimitMate'
+  " View
+  Plug 'altercation/vim-colors-solarized'
+  Plug 'Lokaltog/vim-powerline'
+  Plug 'Yggdroot/indentLine'
+  Plug 'nathanaelkane/vim-indent-guides'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'kannokanno/previm'
+  Plug 'tyru/open-browser.vim'
+  " Syntax & snippets
+  Plug 'w0rp/ale'
+  Plug 'fatih/vim-go'
+  Plug 'cakebaker/scss-syntax.vim'
+  Plug 'plasticboy/vim-markdown'
+  Plug 'dhruvasagar/vim-table-mode'
+  Plug 'davidhalter/jedi-vim'
+  Plug 'vim-scripts/python_fold'
+  Plug 'hynek/vim-python-pep8-indent'
+  " Git
+  Plug 'tpope/vim-fugitive'
+call plug#end()
+"}}}
 
- NeoBundleFetch 'https://github.com/Shougo/neobundle.vim'
- "}}}
+filetype plugin on
+filetype indent on
 
- "{{{ Bundles
- let vim_version = 7.2
- if (vim_version > 7.3)
-    NeoBundle 'https://github.com/Shougo/neocomplete.git' "auto complete
- endif
- NeoBundle 'https://github.com/Shougo/neocomplcache.git' "auto complete
- NeoBundle 'https://github.com/Shougo/neosnippet.git' "auto snippet
- NeoBundle 'https://github.com/Shougo/neosnippet-snippets.git' "snippet files
+"{{{ Default
+"----------------------------------------------------
+" バックアップをとらない
+set nobackup
+" ファイルの上書きの前にバックアップを作る
+" (ただし、backup がオンでない限り、バックアップは上書きに成功した後削>除される)
+set writebackup
+" バックアップをとる場合
+"set backup
+" バックアップファイルを作るディレクトリ
+"set backupdir=~/backup
+" スワップファイルを作るディレクトリ
+"set directory=~/swap
+""}}}
 
- NeoBundle 'https://github.com/Shougo/unite.vim' "user interface for vim
- NeoBundle 'https://github.com/Shougo/vimfiler.git' "filer
- NeoBundle 'https://github.com/scrooloose/nerdtree.git' "filer
- NeoBundle 'https://github.com/sjl/gundo.vim.git' "undo tree
- NeoBundle 'https://github.com/vim-scripts/YankRing.vim' "managemaent yank history
- NeoBundle 'https://github.com/Lokaltog/vim-easymotion.git' "speed up move cursor
- NeoBundle 'https://github.com/ervandew/supertab.git' "tab complete plugin
- NeoBundle 'https://github.com/vim-scripts/grep.vim' "grep.vim
+"{{{ 検索関係
+"----------------------------------------------------
+" 検索関係
+"----------------------------------------------------
+" コマンド、検索パターンを100個まで履歴に残す
+set history=100
+" 検索の時に大文字小文字を区別しない
+set ignorecase
+" 検索の時に大文字が含まれている場合は区別して検索する
+set smartcase
+" 最後まで検索したら先頭に戻る
+set wrapscan
+" インクリメンタルサーチ
+set incsearch
+"escでハイライトをオフ
+nnoremap <silent> <ESC><ESC> :noh<CR>
+"}}}
 
- NeoBundle 'https://github.com/scrooloose/nerdcommenter.git' "comment out plugin
- NeoBundle 'https://github.com/kana/vim-smartchr.git' "using operator plugin
- NeoBundle 'https://github.com/tpope/vim-surround.git' "surround parentheses
- NeoBundle 'https://github.com/altercation/vim-colors-solarized.git' "color schema
- NeoBundle 'nathanaelkane/vim-indent-guides'
+"{{{ 表示関係
+"----------------------------------------------------
+" 表示関係
+"----------------------------------------------------
+" タイトルをウインドウ枠に表示する
+set title
+" 行番号を表示
+set number
+" ルーラーを表示
+"set ruler
+" タブ文字を CTRL-I で表示し、行末に $ で表示する
+"set list
+" 入力中のコマンドをステータスに表示する
+set showcmd
+" ステータスラインを常に表示
+set laststatus=2
+" 括弧入力時の対応する括弧を表示
+set showmatch
+" 対応する括弧の表示時間を2にする
+set matchtime=2
+" シンタックスハイライトを有効にする
+syntax on
+" 検索結果文字列のハイライトを有効にする
+set hlsearch
+" コメント文の色を変更
+"highlight Comment ctermfg=DarkCyan
+" コマンドライン補完を拡張モードにする
+set wildmenu
 
- NeoBundle 'https://github.com/Lokaltog/vim-powerline.git' "powerline
+" 入力されているテキストの最大幅
+" (行がそれより長くなると、この幅を超えないように空白の後で改行される)>を無効にする
+set textwidth=0
+" ウィンドウの幅より長い行は折り返して、次の行に続けて表示する
+set wrap
 
- NeoBundle 'https://github.com/thinca/vim-quickrun.git' "quick run
+" 全角スペースの表示
+" color table は次を参照： http://img1.wikia.nocookie.net/__cb20110121055231/vim/images/1/16/Xterm-color-table.png
+highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
+match ZenkakuSpace /　/
 
- NeoBundle 'https://github.com/vim-scripts/taglist.vim' "taglist
- NeoBundle 'https://github.com/szw/vim-tags.git' "vim-tags
+set foldmethod=marker
 
- NeoBundle 'https://github.com/tpope/vim-fugitive.git' "git plugin
+" ステータスラインに表示する情報の指定
+set statusline=%n\:%y%F\ \|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%p%%>
+" ステータスラインの色
+highlight StatusLine   term=NONE cterm=NONE ctermfg=black ctermbg=white
+inoremap <TAB><TAB> <C-x><C-f>
+"}}}
 
- NeoBundle 'ConradIrwin/vim-bracketed-paste' "auto paste mode plugin
+"{{{ インデント
+"----------------------------------------------------
+" インデント
+"----------------------------------------------------
+" オートインデントを無効にする
+set noautoindent
+" タブが対応する空白の数
+set tabstop=4
+" タブやバックスペースの使用等の編集操作をするときに、タブが対応する空>白の数
+set softtabstop=4
+" インデントの各段階に使われる空白の数
+set shiftwidth=4
+" タブを挿入するとき、代わりに空白を使わない
+"set noexpandtab
+"}}}
 
- NeoBundle 'plasticboy/vim-markdown' "markdown plugin
- NeoBundle 'kannokanno/previm' "markdown viewer
- NeoBundle 'tyru/open-browser.vim' "open markdown view browser
-
- NeoBundle 'ConradIrwin/vim-bracketed-paste' "auto paste mode
- "}}}
-
- call neobundle#end()
-
- filetype plugin indent on
-
- NeoBundleCheck
- "}}}
-
- "{{{ Default
- "--------------------------------------------------
- " Default settings.
- "--------------------------------------------------
- "
- "{{{ For back up
- "
- " unset back up
- set nobackup
- " If rewrite case, back up before rewrite.
- " (backup is not on, remove back up after rewrite)
- set writebackup
- " leave 1000 histories.
- set history=1000
- " do not distinguish Capital and Child character in search
- set ignorecase
- " If mix Capital and Child character in search, distinguish
- set smartcase
- " return Beginning after search
- set wrapscan
- " incremental search
- set incsearch
- " push esc is hilight off
- nnoremap <silent> <ESC><ESC> :noh<CR>
- "}}}
-
- "{{{ For display
- "
- " display title
- set title
- " display line number
- set number
- " display command on status line
- set showcmd
- " display status line, always!
- set laststatus=2
- " display status line configuration
- set statusline=%n\:%y%F\ \|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%p%%>
- highlight StatusLine    term=NONE cterm=NONE ctermfg=black ctermbg=white
- " display corresponding parentheses
- set showmatch
- set matchtime=2
- " sytax highlight is enable
- syntax on
- set background=dark
- colorscheme solarized
- " highlight is enable in search
- set hlsearch
- " custom command line supplement
- set wildmenu
- " text width
- set textwidth=0
- " wrap is on
- set wrap
- " display double-byte space
- highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=drakgray
- match ZenkakuSpace /　/
- "}}}
-
- "{{{ For indent
- "
- " disable auto indent
- set noautoindent
- " tab is four space
- set tabstop=4
- " replace tab to space
- set softtabstop=4
- " indent is four space
- set shiftwidth=4
- "
- set backspace=indent,eol,start
- "}}}
-
- "{{{ For auto command
- "
- if has('autocmd')
-     " index, plugin is enable
-     filetype plugin indent on
-     " store cursor position
-     autocmd BufReadPost *
-         \ if line("'\"") > 0 && line("'\"") <= line("$") |
-         \   exe "normal g`\"" |
-         \ endif
- endif
-
- function! s:remove_dust()
-     let cursor = getpos(".")
-     " remove space of end of line in save
-     %s/\s\+$//ge
-     " replace tab to two space in save
-     %s/\t/    /ge
-     call setpos(".", cursor)
-     unlet cursor
- endfunction
- autocmd BufWritePre * call <SID>remove_dust()
- "}}}
-
- "{{{ For move
- "
- " move in insert mode
- inoremap <C-p> <Up>
- inoremap <C-n> <Down>
- inoremap <C-b> <Left>
- inoremap <C-f> <Right>
- inoremap <C-e> <End>
- inoremap <C-a> <Home>
- inoremap <C-h> <Backspace>
- inoremap <C-d> <Del>
- "}}}
-
- "{{{ Other
- "
- " If switch buffer, do not lose undo
- set hidden
- " do not display start up message
- set shortmess+=I
- " support screen
- set ttymouse=xterm2
- "}}}
-
- "{{{ For setting of Tab
- "--------------------------------------------------
- " tab setting
- "--------------------------------------------------
- "
- "highlight TabLineSel  cterm=bold,underline ctermfg=22 ctermbg=154
- " カレントタブの配色: DarkGreen × Yellow (powerline NORMALモードと同様)
- highlight TabLineSel  cterm=bold,underline ctermfg=8 ctermbg=4
- " カレントタブの配色: DarkGray x Blue
- highlight TabLine  cterm=bold,underline ctermfg=5 ctermbg=0
- highlight TabLineFill  cterm=bold,underline ctermfg=5 ctermbg=0
- " デフォルトタブの配色：Purple x
-
- " Anywhere SID.
- function! s:SID_PREFIX()
-   return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
- endfunction
-
- " Set tabline.
- function! s:my_tabline()
-   let s = ''
-   for i in range(1, tabpagenr('$'))
-     let bufnrs = tabpagebuflist(i)
-     let bufnr = bufnrs[tabpagewinnr(i) - 1]  " first window, first appears
-     let no = i  " display 0-origin tabpagenr.
-     let mod = getbufvar(bufnr, '&modified') ? '!' : ' '
-     let title = fnamemodify(bufname(bufnr), ':t')
-     let title = title
-     let s .= '%'.i.'T'
-     let s .= '%#' . (i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
-     let s .= (i == tabpagenr() ? "[+]" . no : "[-]" . no ) . ':' . title
-     let s .= mod
-     let s .= '%#TabLineFill# '
-   endfor
-   let s .= '%#TabLineFill#%T%=%#TabLine#'
-   return s
- endfunction
- let &tabline = '%!'. s:SID_PREFIX() . 'my_tabline()'
- set showtabline=2 " 常にタブラインを表示
-
- " The prefix key.
- nnoremap    [Tag]   <Nop>
- nmap    t [Tag]
- " Tab jump
- for n in range(1, 9)
-   execute 'nnoremap <silent> [Tag]'.n  ':<C-u>tabnext'.n.'<CR>'
- endfor
- " t1 で1番左のタブ、t2 で1番左から2番目のタブにジャンプ
-
- map <silent> [Tag]n :tablast <bar> tabnew<CR>
- " tn 新しいタブを一番右に作る
- map <silent> [Tag]c :tabclose<CR>
- " tc タブを閉じる
- map <silent> [Tag]o :tabonly<CR>
- " tac 全てのタブを閉じる
- map <silent> [Tag]l :tabnext<CR>
- " tl 次のタブ
- map <silent> [Tag]h :tabprevious<CR>
- " th 前のタブ
- "}}}
-
- "}}}
-
- "{{{ color
- "syntax enable
- "set background=dark
- "colorscheme solarized
-  "}}}
-
- " {{{ powerline
- "----------------------------------------------------
- " vim-powerline
- "----------------------------------------------------
- let g:Powerline_stl_path_style='full'
- ""}}}
-
- "{{{ For auto complete
- "--------------------------------------------------
- " neocomplcache or neocomplete
- "--------------------------------------------------
- " enable lua is vim 7.3.885 (or later)
- "NeoBundle has('lua') ? 'Shougo/neocomplete': 'Shougo/neocomplcache'
- "if neobundle#is_installed('neocomplete')
- if (vim_version > 7.4)
-     " Use neocomplete
-     let g:acp_enableAtStartup = 0
-     let g:neocomplete#enable_at_startup = 1
-     let g:neocomplete#enable_ignore_case = 1
-     let g:neocomplete#enable_smart_case = 1
-     let g:neocomplete#sources#syntax#min_keyword_length = 3
-     if !exists('g:neocomplete#keyword_patterns')
-         let g:neocomplete#keyword_patterns = {}
-     endif
-     let g:neocomplete#keyword_patterns._ = '\h\w*'
-     let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-     "Plugin key - mappings.
-     inoremap <expr><C-g>     neocomplete#undo_completion()
-     inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-     "Recommended key - mappings.
-     " <CR>:  close popup and save indent.
-     inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-     function! s:my_cr_function()
-         " return neocomplete#close_popup() . "\<CR>"
-         " For no inserting <CR> key.
-         return pumvisible() ? neocomplete#close_popup() :  "\<CR>"
-     endfunction
-     " <TAB>:  completion.
-     "inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :  "\<TAB>"
-     "<C-h>,  <BS>:  close popup and delete backword char.
-     inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-     inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-     inoremap <expr><C-y>  neocomplete#close_popup()
-     inoremap <expr><C-e>  neocomplete#cancel_popup()
-
-     " Close popup by <Space>.
-     inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() :  "\<Space>"
-
- "elseif neobundle#is_installed('neocomplcache')
- elseif (vim_version > 7.0)
-     " Use neocomplcache
-     let g:neocomplcache_enable_at_startup = 1
-     " Use smartcase
-     let g:neocomplcache_enable_smart_case = 1
-     " Use camel case completion.
-     let g:neocomplcache_enable_camel_case_completion = 1
-     " Use undarbar completion.
-     let g:neocomplcache_enable_underbar_completion = 1
-     " Pugin key mappings.
-     inoremap <expr><C-g>    neocomplcache#undo_completion()
-     inoremap <expr><C-l>    neocomplcache#complete_common_string()
-     " <CR>: close popup and save indent
-     inoremap <expr><CR>    neocomplcache#smart_close_popup(). "\<CR>"
-     " <C-h>, <BS>: close popup and delete backword char.
-     inoremap <expr><C-h>    neocomplcache#smart_close_popup()."\<C-h>"
-     inoremap <expr><BS>    neocomplcache#smart_close_popup()."\<C-h>"
-     inoremap <expr><C-y>    neocomplcache#close_popup()
- endif
- " <TAB>: completion.
- inoremap <expr><TAB>    pumvisible() ? "\<C-n>" : "\<TAB>"
- "}}}
-
- "{{{ For snippet
- "--------------------------------------------------
- " neosnippet
- "--------------------------------------------------
- " Plugin key-mappings.
- imap <C-k>    <Plug>(neosnippet_expand_or_jump)
- smap <C-k>    <Plug>(neosnippet_expand_or_jump)
- xmap <C-k>    <Plug>(neosnippet_expand_target)
-
- "SuperTab like snippets behavior
- imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-             \ "\<Plug>(neosnippet_expand_or_jump)"
-             \: pumvisible() ? "\<C-n>" : "\<TAB>"
- smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-             \ "\<Plug>(neosnippet_expand_or_jump)"
-             \: "\<TAB>"
-
- "For snippet complete marker.
- if has('conceal')
-     set conceallevel=2 concealcursor=i
- endif
- " Enable snipMate compatibility feature.
- let g:neosnippet#enable_snipmate_compatibility = 1
- " location of snippets
- let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/neosnippets/'
- "}}}
-
- "{{{ unite
- "----------------------------------------------------
- " unite
- "----------------------------------------------------
- " 入力モードで開始する
- let g:unite_enable_start_insert=1
- " バッファ一覧
- nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
- " ファイル一覧
- nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
- " レジスタ一覧
- nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
- " 最近使用したファイル一覧
- nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
- " 常用セット
- nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
- " 全部乗せ
- nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
- "}}}
-
- "{{{ vimfiler
- "----------------------------------------------------
- " vimfiler
- "----------------------------------------------------
- let g:vimfiler_as_default_explorer = 1
- " }}}
-
- "{{{ For Yank
- "--------------------------------------------------
- " YankRing
- "--------------------------------------------------
- let g:yankring_manual_clipboard_check = 0
- "}}}
-
- "{{{ For smartchr
- "--------------------------------------------------
- " smartchr
- "--------------------------------------------------
- inoremap <expr> + smartchr#one_of(' + ', '++', '+')
- inoremap <expr> - smartchr#one_of(' - ', '--', '-')
- inoremap <expr> , smartchr#one_of(', ', ',')
- inoremap <expr> : smartchr#one_of(': ', ':')
- inoremap <expr> ; smartchr#one_of(';', ';<cr>')
- "}}}
-
- "{{{ For Tag
- "--------------------------------------------------
- " taglist
- "--------------------------------------------------
- "set tags = tags
- let Tlist_Ctags_Cmd = "/usr/bin/ctags"
- let Tlist_Show_One_File = 1
- let Tlist_Use_Right_Window = 1
- let Tlist_Exit_OnlyWindow = 1
- "}}}
-
- "{{{ For indent
- "----------------------------------------------------
- " vim-indent-guides
- "----------------------------------------------------
- let g:indent_guides_auto_colors = 0
- autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd ctermbg=green
- autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=yellow
- let g:indent_guides_enable_on_vim_startup=1
- let g:indent_guides_guide_size=1
- "}}}
-
- "{{{ For git
- "--------------------------------------------------
- " fugitive
- "--------------------------------------------------
- autocmd QuickFixCmdPost *grep* cwindow
- set statusline+=%{fugitive#statusline()}
- "}}}
-
- "{{{ For markdown
- "--------------------------------------------------
- " vim-markdown
- "--------------------------------------------------
- au BufRead,BufNewFile *.md set filetype=markdown
- "}}}
-
+"{{{ オートコマンド
+"----------------------------------------------------
+" オートコマンド
+"----------------------------------------------------
+if has("autocmd")
+    " ファイルタイプ別インデント、プラグインを有効にする
+    filetype plugin indent on
+    " カーソル位置を記憶する
+    autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \   exe "normal g`\"" |
+        \ endif
 endif
 
+function! s:remove_dust()
+    let cursor = getpos(".")
+    " 保存時に行末の空白を除去する
+    %s/\s\+$//ge
+    " 保存時にtabを2スペースに変換する
+    %s/\t/    /ge
+    call setpos(".", cursor)
+    unlet cursor
+endfunction
+autocmd BufWritePre * call <SID>remove_dust()
+"}}}
 
+"{{{ その他
+"----------------------------------------------------
+" その他
+"----------------------------------------------------
+" バッファを切替えてもundoの効力を失わない
+set hidden
+" 起動時のメッセージを表示しない
+set shortmess+=I
+" マウスモード有効
+set mouse=a
+" screen対応
+set ttymouse=xterm2
+"}}}
 
+"{{{ 移動設定 Move
+"----------------------------------------------------
+" 移動設定 Move
+"----------------------------------------------------
+" insert mode での移動
+inoremap <C-p> <Up>
+inoremap <C-n> <Down>
+inoremap <C-b> <Left>
+inoremap <C-f> <Right>
+inoremap <C-e> <End>
+inoremap <C-a> <Home>
+inoremap <C-h> <Backspace>
+inoremap <C-d> <Del>
+"}}}
 
+"{{{ tab setting
+"--------------------------------------------------
+" tab setting
+"--------------------------------------------------
+"
+"highlight TabLineSel  cterm=bold,underline ctermfg=22 ctermbg=154
+" カレントタブの配色: DarkGreen × Yellow (powerline NORMALモードと同様)
+highlight TabLineSel  cterm=bold,underline ctermfg=8 ctermbg=4
+" カレントタブの配色: DarkGray x Blue
+highlight TabLine  cterm=bold,underline ctermfg=5 ctermbg=0
+highlight TabLineFill  cterm=bold,underline ctermfg=5 ctermbg=0
+" デフォルトタブの配色：Purple x
 
+" Anywhere SID.
+function! s:SID_PREFIX()
+  return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
+endfunction
 
+" Set tabline.
+function! s:my_tabline()
+  let s = ''
+  for i in range(1, tabpagenr('$'))
+    let bufnrs = tabpagebuflist(i)
+    let bufnr = bufnrs[tabpagewinnr(i) - 1]  " first window, first appears
+    let no = i  " display 0-origin tabpagenr.
+    let mod = getbufvar(bufnr, '&modified') ? '!' : ' '
+    let title = fnamemodify(bufname(bufnr), ':t')
+    let title = title
+    let s .= '%'.i.'T'
+    let s .= '%#' . (i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
+    let s .= (i == tabpagenr() ? "[+]" . no : "[-]" . no) . ':' . title
+    let s .= mod
+    let s .= '%#TabLineFill# '
+  endfor
+  let s .= '%#TabLineFill#%T%=%#TabLine#'
+  return s
+endfunction
+let &tabline = '%!'. s:SID_PREFIX() . 'my_tabline()'
+set showtabline=2 " 常にタブラインを表示
 
+" The prefix key.
+nnoremap    [Tag]   <Nop>
+nmap    t [Tag]
+" Tab jump
+for n in range(1, 9)
+  execute 'nnoremap <silent> [Tag]'.n  ':<C-u>tabnext'.n.'<CR>'
+endfor
+" t1 で1番左のタブ、t2 で1番左から2番目のタブにジャンプ
+
+map <silent> [Tag]n :tablast <bar> tabnew<CR>
+" tn 新しいタブを一番右に作る
+map <silent> [Tag]c :tabclose<CR>
+" tc タブを閉じる
+map <silent> [Tag]o :tabonly<CR>
+" tac 全てのタブを閉じる
+map <silent> [Tag]l :tabnext<CR>
+" tl 次のタブ
+map <silent> [Tag]h :tabprevious<CR>
+" th 前のタブ
+"}}}
+
+"{{{ deoplete
+"----------------------------------------------------
+" deoplete
+"----------------------------------------------------
+let g:deoplete#enable_at_startup = 1
+"}}}
+
+"{{{ unite
+"----------------------------------------------------
+" unite
+"----------------------------------------------------
+" 入力モードで開始する
+let g:unite_enable_start_insert=1
+" バッファ一覧
+nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
+" ファイル一覧
+nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+" レジスタ一覧
+nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
+" 最近使用したファイル一覧
+nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
+" 常用セット
+nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
+" 全部乗せ
+nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+"}}}
+
+"{{{ vimfiler
+"----------------------------------------------------
+" vimfiler
+"----------------------------------------------------
+let g:vimfiler_as_default_explorer = 1
+"}}}
+
+"{{{ YankRing
+"----------------------------------------------------
+" YankRing
+"----------------------------------------------------
+let g:yankring_manual_clipboard_check = 0
+let g:yankring_enabled = 1
+"}}}
+
+"{{{ delimitMate
+"----------------------------------------------------
+" delimitMate
+"----------------------------------------------------
+inoremap <expr> <CR> delimitMate#WithinEmptyPair() ?
+             \ "\<C-R>=delimitMate#ExpandReturn()\<CR>" :
+             \ "<CR>"
+let g:delimitMate_expand_cr = 1
+"}}}
+
+"{{{ smartchr
+"----------------------------------------------------
+" smartchr
+"----------------------------------------------------
+" 演算子の間に空白を入れる
+inoremap <expr> + smartchr#one_of(' + ', '++', '+')
+inoremap <expr> - smartchr#one_of(' - ', '--', '-')
+inoremap <expr> , smartchr#one_of(', ', ',')
+inoremap <expr> : smartchr#one_of(': ', '::', ':')
+" 下記の文字は連続して現れることがまれなので、二回続けて入力したら改行>する
+inoremap <expr> ; smartchr#one_of(';', ';<cr>')
+"}}}
+
+"{{{ color
+syntax enable
+"set background=light
+set background=dark
+colorscheme solarized
+"}}}
+
+"{{{ powerline
+"----------------------------------------------------
+" vim-powerline
+"----------------------------------------------------
+let g:Powerline_stl_path_style='full'
+""}}}
+
+"{{{ vim-indent-guides
+"----------------------------------------------------
+" vim-indent-guides
+"----------------------------------------------------
+let g:indent_guides_auto_colors = 0
+"autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd ctermbg=green
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=yellow
+hi IndentGuidesOdd ctermbg=green
+hi IndentGuidesEven ctermbg=yellow
+let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_guide_size=1
+"}}}
+
+"{{{ go vim
+"----------------------------------------------------
+"go vim
+"----------------------------------------------------
+set rtp+=$GOROOT/misc/vim
+exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
+set completeopt=menu,preview
+au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+
+if !exists('g:neocomplcache_omni_patterns')
+    let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.go = '\h\w*\.\?'
+"}}}
+
+"{{{ vim-markdown
+"----------------------------------------------------
+" vim-markdown
+"----------------------------------------------------
+au BufRead,BufNewFile *.md set filetype=markdown
+"}}}
+
+"{{{ ale
+"----------------------------------------------------
+" ale
+"----------------------------------------------------
+" 保存時のみ実行する
+let g:ale_lint_on_text_changed = 0
+" 表示に関する設定
+let g:ale_sign_error = '△'
+let g:ale_sign_warning = '×'
+let g:airline#extensions#ale#open_lnum_symbol = '('
+let g:airline#extensions#ale#close_lnum_symbol = ')'
+let g:ale_echo_msg_format = '[%linter%]%code: %%s'
+highlight link ALEErrorSign Tag
+highlight link ALEWarningSign StorageClass
+" Ctrl + kで次の指摘へ、Ctrl + jで前の指摘へ移動
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+"}}}
+
+"{{{ airline
+"----------------------------------------------------
+" airline
+"----------------------------------------------------
+let g:airline_theme = 'wombat'
+set laststatus=2
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#wordcount#enabled = 0
+let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
+let g:airline_section_c = '%t'
+let g:airline_section_x = '%{&filetype}'
+let g:airline_section_z = '%3l:%2v %{airline#extensions#ale#get_warning()} %{airline#extensions#ale#get_error()}'
+let g:airline#extensions#ale#error_symbol = '△ '
+let g:airline#extensions#ale#warning_symbol = '×'
+let g:airline#extensions#default#section_truncate_width = {}
+let g:airline#extensions#whitespace#enabled = 1
+"}}}
+
+"{{{ vim-cheatsheet
+"----------------------------------------------------
+" vim-cheatsheet
+"----------------------------------------------------
+let g:cheatsheet#cheat_file = './dotfiles/vim_cheatsheet.md'
+"}}}
