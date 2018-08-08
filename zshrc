@@ -183,13 +183,8 @@ xterm|xterm-256color|kterm|kterm-color)
     ;;
 esac
 
-### git用 zshプロンプト設定
-# カラーの設定を$fg[red]のように人がわかるような書き方ができる
-autoload -Uz colors
-colors
-
 #
-# Color定義(あとで変更しやすいように)
+# Color
 #
 DEFAULT=$'%{\e[0;0m%}'
 RESET="%{${reset_color}%}"
@@ -208,48 +203,49 @@ BOLD_MAGENTA="%{${fg_bold[magenta]}%}"
 WHITE="%{${fg[white]}%}"
 
 
+### for git
+autoload -Uz colors
+colors
+
 setopt prompt_subst
 autoload -Uz add-zsh-hook
 
-
-# ブランチ名を色付きで表示させるメソッド
+# Show Branch with color theme
 function rprompt-git-current-branch {
   local branch_name st branch_status
 
   if [ ! -e  ".git" ]; then
-    # gitで管理されていないディレクトリは何も返さない
+    # Non git repository
     return
   fi
   branch_name=`git rev-parse --abbrev-ref HEAD 2> /dev/null`
   st=`git status 2> /dev/null`
   if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
-    # 全てcommitされてクリーンな状態
+    # All Committed
     branch_status="%F{green}"
   elif [[ -n `echo "$st" | grep "^Untracked files"` ]]; then
-    # gitに管理されていないファイルがある状態
+    # Untracked
     branch_status="%F{red}?"
   elif [[ -n `echo "$st" | grep "^Changes not staged for commit"` ]]; then
-    # git addされていないファイルがある状態
+    # Unstaged
     branch_status="%F{red}+"
   elif [[ -n `echo "$st" | grep "^Changes to be committed"` ]]; then
-    # git commitされていないファイルがある状態
+    # Changes
     branch_status="%F{yellow}!"
   elif [[ -n `echo "$st" | grep "^rebase in progress"` ]]; then
-    # コンフリクトが起こった状態
+    # Conflict
     echo "%F{red}!(no branch)"
     return
   else
-    # 上記以外の状態の場合は青色で表示させる
+    # other
     branch_status="%F{blue}"
   fi
-  # ブランチ名を色付きで表示する
+  # View
   echo "${branch_status}[$branch_name]"
 }
 
-# プロンプトが表示されるたびにプロンプト文字列を評価、置換する
 setopt prompt_subst
-
-# プロンプトの右側(RPROMPT)にメソッドの結果を表示させる
+# Add PROMPT
 RPROMPT='`rprompt-git-current-branch`'
 
 ## load user .zshrc configuration file
