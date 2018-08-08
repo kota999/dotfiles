@@ -46,6 +46,10 @@
      + di)
    + delete and insert
      + ci)
+ + Register/Done/Show macro
+   + qa, <command>, q
+   + @a
+   + :reg
 
 ## Customize Vim Keybind
  + Path completion
