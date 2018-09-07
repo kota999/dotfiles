@@ -1,5 +1,6 @@
 set nocompatible
 filetype off
+set encoding=utf8
 
 "{{{ Plugin Manager
 if has('vim_starting')
@@ -53,9 +54,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'nathanaelkane/vim-indent-guides'
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
-  Plug 'ryanoasis/vim-devicons'
   Plug 'kannokanno/previm'
   Plug 'tyru/open-browser.vim'
+  Plug 'ryanoasis/vim-devicons'
   " Syntax & snippets
   Plug 'w0rp/ale'
   Plug 'fatih/vim-go'
@@ -287,6 +288,20 @@ map <silent> [Tag]h :tabprevious<CR>
 " th 前のタブ
 "}}}
 
+"{{{ toggle setting
+"----------------------------------------------------
+" toggle setting
+"----------------------------------------------------
+nnoremap s <Nop>
+nnoremap ss :<C-u>sp<CR>
+nnoremap sv :<C-u>vs<CR>
+nnoremap sj <C-w>j
+nnoremap sk <C-w>k
+nnoremap sl <C-w>l
+nnoremap sh <C-w>h
+nnoremap sw <C-w>w
+"}}}
+
 "{{{ deoplete
 "----------------------------------------------------
 " deoplete
@@ -449,5 +464,12 @@ let g:airline#extensions#whitespace#enabled = 1
 "----------------------------------------------------
 " vim-cheatsheet
 "----------------------------------------------------
-let g:cheatsheet#cheat_file = './dotfiles/vim_cheatsheet.md'
+let g:cheatsheet#cheat_file = '~/dotfiles/vim_cheatsheet.md'
+"}}}
+"
+"{{{ vim-devicons
+"----------------------------------------------------
+" vim-devicons
+"----------------------------------------------------
+set guifont=DroidSansMono_Nerd_Font:h11
 "}}}

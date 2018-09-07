@@ -63,6 +63,9 @@
    + t<tab_numer>
  + Close Tab
    + tc
+ + Move toggle
+   + s[hjklw]
+   + Ctrl-[hjklw]
 
 ## Plugin Keybind
 ### Often
