@@ -1,7 +1,8 @@
 {
     "rules": {
         "spellcheck-tech-word": true,
-        "preset-ja-technical-writing": true
+        "preset-ja-technical-writing": true,
+        "no-todo": true
     },
     "filters": {
         "comments": true
