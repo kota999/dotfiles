@@ -36,6 +36,9 @@
    + r<after_char>
  + Count up for number
    + [Ctrl]a
+ + Grep
+   + vimgrep "pattern" *file_pattern*
+     + move: cn, cp
  + Rectangular selection
    + [Ctrl]v
      + [Shift]<vim_shortcut>
