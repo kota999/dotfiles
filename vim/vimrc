@@ -82,6 +82,7 @@ set nobackup
 " (ただし、backup がオンでない限り、バックアップは上書きに成功した後削>除される)
 set writebackup
 " バックアップをとる場合
+set backspace=indent,eol,start
 "set backup
 " バックアップファイルを作るディレクトリ
 "set backupdir=~/backup
