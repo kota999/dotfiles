@@ -232,7 +232,7 @@ inoremap <C-d> <Del>
 " tab setting
 "--------------------------------------------------
 "
-"highlight TabLineSel  cterm=bold,underline ctermfg=22 ctermbg=154
+highlight TabLineSel  cterm=bold,underline ctermfg=22 ctermbg=154
 " カレントタブの配色: DarkGreen × Yellow (powerline NORMALモードと同様)
 highlight TabLineSel  cterm=bold,underline ctermfg=8 ctermbg=4
 " カレントタブの配色: DarkGray x Blue
@@ -348,10 +348,10 @@ let g:yankring_enabled = 1
 "----------------------------------------------------
 " delimitMate
 "----------------------------------------------------
-inoremap <expr> <CR> delimitMate#WithinEmptyPair() ?
-             \ "\<C-R>=delimitMate#ExpandReturn()\<CR>" :
-             \ "<CR>"
-let g:delimitMate_expand_cr = 1
+"inoremap <expr> <CR> delimitMate#WithinEmptyPair() ?
+             "\ "\<C-R>=delimitMate#ExpandReturn()\<CR>" :
+             "\ "<CR>"
+"let g:delimitMate_expand_cr = 1
 "}}}
 
 "{{{ smartchr
