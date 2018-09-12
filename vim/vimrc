@@ -88,7 +88,9 @@ set backspace=indent,eol,start
 "set backupdir=~/backup
 " スワップファイルを作るディレクトリ
 "set directory=~/swap
-""}}}
+" yank をクリップボードにもコピー
+set clipboard+=unnamed
+""} }}
 
 "{{{ 検索関係
 "----------------------------------------------------
@@ -467,10 +469,11 @@ let g:airline#extensions#whitespace#enabled = 1
 "----------------------------------------------------
 let g:cheatsheet#cheat_file = '~/dotfiles/vim_cheatsheet.md'
 "}}}
-"
+
 "{{{ vim-devicons
 "----------------------------------------------------
 " vim-devicons
 "----------------------------------------------------
 set guifont=DroidSansMono_Nerd_Font:h11
 "}}}
+
