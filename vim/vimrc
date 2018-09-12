@@ -1,6 +1,8 @@
 set nocompatible
 filetype off
 set encoding=utf8
+set termencoding=utf8
+set fileformats=unix,dos,mac
 
 "{{{ Plugin Manager
 if has('vim_starting')
@@ -28,46 +30,75 @@ call plug#begin('~/.vim/plugged')
   endif
   " Vim
   Plug 'Shougo/vimproc'
+  Plug 'vim-scripts/sudo.vim'
   Plug 'Lokaltog/vim-easymotion'
   Plug 'ConradIrwin/vim-bracketed-paste'
   Plug 'vim-scripts/YankRing.vim'
-  Plug 'szw/vim-tags'
-  Plug 'majutsushi/tagbar'
   Plug 'sjl/gundo.vim'
-  Plug 'reireias/vim-cheatsheet'
+  Plug 'tpope/vim-repeat'
+  Plug 'tpope/vim-speeddating'
+  " Search
+  Plug 'haya14busa/incsearch.vim'
+  Plug 'haya14busa/vim-asterisk'
+  Plug 'osyo-manga/vim-anzu'
   " Shell
-  Plug 'Shougo/unite.vim'
-  Plug 'Shougo/vimfiler'
   Plug 'Shougo/vimshell'
   Plug 'thinca/vim-quickrun'
+  Plug 'b4b4r07/vim-shellutils'
+  " Filer
+  Plug 'Shougo/unite.vim'
+  Plug 'Shougo/vimfiler'
   Plug 'scrooloose/nerdtree'
+  Plug 'ctrlpvim/ctrlp.vim'
   " Input automator & alignmentor
   Plug 'tpope/vim-surround'
   Plug 'ervandew/supertab'
   Plug 'scrooloose/nerdcommenter'
   Plug 'kana/vim-smartchr'
   Plug 'Raimondi/delimitMate'
-  " View
+  "Plug 'jiangmiao/auto-pairs'
+  Plug 'junegunn/vim-easy-align'
+  Plug 'kana/vim-operator-replace'
+  Plug 'kana/vim-operator-user'
+  " Theme
   Plug 'altercation/vim-colors-solarized'
   Plug 'Lokaltog/vim-powerline'
-  Plug 'Yggdroot/indentLine'
-  Plug 'nathanaelkane/vim-indent-guides'
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
+  Plug 'ryanoasis/vim-devicons'
+  " Higlighter
+  Plug 'Yggdroot/indentLine'
+  Plug 'nathanaelkane/vim-indent-guides'
+  Plug 'bronson/vim-trailing-whitespace'
+  Plug 'lilydjwg/colorizer'
+  " View
   Plug 'kannokanno/previm'
   Plug 'tyru/open-browser.vim'
-  Plug 'ryanoasis/vim-devicons'
+  Plug 'itchyny/calendar.vim'
   " Syntax & snippets
   Plug 'w0rp/ale'
   Plug 'fatih/vim-go'
-  Plug 'cakebaker/scss-syntax.vim'
+  Plug 'JulesWang/css.vim'
+  Plug 'hail2u/vim-css3-syntax'
   Plug 'plasticboy/vim-markdown'
   Plug 'dhruvasagar/vim-table-mode'
   Plug 'davidhalter/jedi-vim'
   Plug 'vim-scripts/python_fold'
   Plug 'hynek/vim-python-pep8-indent'
+  Plug 'chase/vim-ansible-yaml'
+  Plug 'osyo-manga/vim-precious'
+  Plug 'Shougo/context_filetype.vim'
+  Plug 'kana/vim-textobj-user'
   " Git
   Plug 'tpope/vim-fugitive'
+  " Ctag
+  Plug 'szw/vim-tags'
+  Plug 'majutsushi/tagbar'
+  " Other
+  Plug 'vim-scripts/mru.vim'
+  Plug 'AndrewRadev/linediff.vim'
+  Plug 'reireias/vim-cheatsheet'
+  Plug 'thinca/vim-showtime'
 call plug#end()
 "}}}
 
@@ -357,17 +388,44 @@ let g:yankring_enabled = 1
 "let g:delimitMate_expand_cr = 1
 "}}}
 
+"{{{ vim-easy-align
+"----------------------------------------------------
+" vim-easy-align
+"----------------------------------------------------
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+"}}}
+
 "{{{ smartchr
 "----------------------------------------------------
 " smartchr
 "----------------------------------------------------
-" 演算子の間に空白を入れる
-inoremap <expr> + smartchr#one_of(' + ', '++', '+')
-inoremap <expr> - smartchr#one_of(' - ', '--', '-')
+" insert escape surround-operator
+inoremap <expr> + smartchr#one_of(' + ', '+', '++')
+inoremap <expr> - smartchr#one_of(' - ', '-', '--')
 inoremap <expr> , smartchr#one_of(', ', ',')
-inoremap <expr> : smartchr#one_of(': ', '::', ':')
-" 下記の文字は連続して現れることがまれなので、二回続けて入力したら改行>する
+inoremap <expr> : smartchr#one_of(': ', ':', '::')
+" input ';' twice, inset linefeed
 inoremap <expr> ; smartchr#one_of(';', ';<cr>')
+"}}}
+
+"{{{ vim-operator-replace
+"----------------------------------------------------
+"  vim-operator-replace
+"----------------------------------------------------
+map R  <Plug>(operator-replace)
+"}}}
+
+"{{{ linediff.vim
+"----------------------------------------------------
+" linediff.vim
+"----------------------------------------------------
+let g:linediff_first_buffer_command = 'new'
+let g:linediff_second_buffer_command = 'vertical new'
+" LinediffReset typing q
+autocmd User LinediffBufferReady nnoremap <buffer> q :LinediffReset<cr>
 "}}}
 
 "{{{ color
@@ -454,7 +512,7 @@ let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#wordcount#enabled = 0
 let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
-let g:airline_section_c = '%t'
+let g:airline_section_c = '%F'
 let g:airline_section_x = '%{&filetype}'
 let g:airline_section_z = '%3l:%2v %{airline#extensions#ale#get_warning()} %{airline#extensions#ale#get_error()}'
 let g:airline#extensions#ale#error_symbol = '△ '
@@ -475,5 +533,68 @@ let g:cheatsheet#cheat_file = '~/dotfiles/vim_cheatsheet.md'
 " vim-devicons
 "----------------------------------------------------
 set guifont=DroidSansMono_Nerd_Font:h11
+"}}}
+
+"{{{ incsearch.vim
+"----------------------------------------------------
+" incsearch.vim
+"----------------------------------------------------
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+"}}}
+
+"{{{ anzu.vim and vim-astrisk
+"----------------------------------------------------
+" anzu.vim and vim-astrisk
+"----------------------------------------------------
+" When * command, use anzu.vim output
+nmap * <Plug>(asterisk-z*)<Plug>(anzu-update-search-status-with-echo)
+
+" Use anzu-mode
+nmap * <Plug>(asterisk-z*)<Plug>(anzu-mode)
+"}}}
+
+"{{{ calendar.vim
+"----------------------------------------------------
+" calendar.vim
+"----------------------------------------------------
+"let g:calendar_google_calendar = 1
+"let g:calendar_google_task = 1
+"}}}
+
+"{{{ My commands
+"----------------------------------------------------
+" OpenVimrc
+"----------------------------------------------------
+function! OpenVimrc()
+  tabnew
+  edit $MYVIMRC
+endfunction
+command! OpenVimrc :call OpenVimrc()
+
+"----------------------------------------------------
+" OpenVimrc
+"----------------------------------------------------
+function! WriteAsRoot()
+  write !sudo tee % > /dev/null
+endfunction
+command! WriteAsRoot :call WriteAsRoot()
+
+"----------------------------------------------------
+" Clock
+"----------------------------------------------------
+function! Clock()
+  Calendar -view=clock
+endfunction
+command! Clock :call Clock()
+
+"----------------------------------------------------
+" QucikFixCmd
+"----------------------------------------------------
+augroup QuickFixCmd
+  autocmd!
+  autocmd QuickFixCmdPost *grep* tab cwindow
+augroup END
 "}}}
 
