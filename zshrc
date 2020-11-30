@@ -203,51 +203,6 @@ BOLD_MAGENTA="%{${fg_bold[magenta]}%}"
 WHITE="%{${fg[white]}%}"
 
 
-### for git
-autoload -Uz colors
-colors
-
-setopt prompt_subst
-autoload -Uz add-zsh-hook
-
-# Show Branch with color theme
-function rprompt-git-current-branch {
-  local branch_name st branch_status
-
-  if [ ! -e  ".git" ]; then
-    # Non git repository
-    return
-  fi
-  branch_name=`git rev-parse --abbrev-ref HEAD 2> /dev/null`
-  st=`git status 2> /dev/null`
-  if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
-    # All Committed
-    branch_status="%F{green}"
-  elif [[ -n `echo "$st" | grep "^Untracked files"` ]]; then
-    # Untracked
-    branch_status="%F{red}?"
-  elif [[ -n `echo "$st" | grep "^Changes not staged for commit"` ]]; then
-    # Unstaged
-    branch_status="%F{red}+"
-  elif [[ -n `echo "$st" | grep "^Changes to be committed"` ]]; then
-    # Changes
-    branch_status="%F{yellow}!"
-  elif [[ -n `echo "$st" | grep "^rebase in progress"` ]]; then
-    # Conflict
-    echo "%F{red}!(no branch)"
-    return
-  else
-    # other
-    branch_status="%F{blue}"
-  fi
-  # View
-  echo "${branch_status}[$branch_name]"
-}
-
-setopt prompt_subst
-# Add PROMPT
-RPROMPT='`rprompt-git-current-branch`'
-
 ## load user .zshrc configuration file
 #
 [ -f ${HOME}/.zshrc.mine ] && source ${HOME}/.zshrc.mine
