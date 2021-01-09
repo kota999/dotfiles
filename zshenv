@@ -8,4 +8,12 @@ function ls-peco(){
     echo $FILTERD_LS
 }
 
-alias -g L='$(ls-peco)'
+alias -g Ls='$(ls-peco)'
+alias -g L=Ls
+
+function ghq-peco(){
+    FILTERD_GHQ=$(ghq list -p | peco)
+    echo $FILTERD_GHQ
+}
+alias -g ghq-l='$(ghq-peco)'
+
