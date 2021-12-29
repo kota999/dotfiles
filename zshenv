@@ -1,6 +1,7 @@
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin:/usr/local/bin
+export PATH=$PATH:~/.cargo/bin
 
 # Test of global alias
 function ls-peco(){
